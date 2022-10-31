@@ -1,6 +1,8 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MoviesAPI.Models;
+using MoviesAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,14 @@ builder.Services.AddControllers();
 builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// inject Genre,Movie Services
+builder.Services.AddTransient<IGenreServices,GenreServices>();
+builder.Services.AddTransient<IMovieService,MovieService>();
+
+// Register / inject ==> AutoMapper Service
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
